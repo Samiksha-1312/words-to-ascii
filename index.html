@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Words to ASCII | Code Converter & ASCII Art Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-badge">ASCII Utility Suite</div>
+      <h1 class="header-title">Words to <span class="gradient-text">ASCII</span></h1>
+      <p class="header-desc">
+        Fast, live text converter for ASCII decimal, binary, hexadecimal, octal values, and ASCII art banner generation.
+      </p>
+    </header>
+
+    <!-- Main Card -->
+    <main class="main-card">
+      <!-- Input Area -->
+      <section class="input-section">
+        <div class="input-toolbar">
+          <label for="text-input" class="section-label">Input Text</label>
+          <div class="toolbar-actions">
+            <button id="btn-sample" class="btn btn-secondary btn-sm" title="Insert sample text">Sample</button>
+            <button id="btn-clear" class="btn btn-secondary btn-sm" title="Clear text">Clear</button>
+          </div>
+        </div>
+        <textarea id="text-input" placeholder="Type or paste any text here..." rows="4" autofocus>Hello World</textarea>
+        <div class="input-stats">
+          <span id="char-count">Characters: 11</span>
+          <span id="word-count">Words: 2</span>
+          <span id="byte-count">Bytes: 11 B</span>
+        </div>
+      </section>
+
+      <!-- Tabs Navigation -->
+      <nav class="nav-tabs" role="tablist">
+        <button class="tab-btn active" data-tab="tab-converter" role="tab" aria-selected="true">
+          <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+          ASCII Encodings
+        </button>
+        <button class="tab-btn" data-tab="tab-art" role="tab" aria-selected="false">
+          <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          ASCII Art Banners
+        </button>
+        <button class="tab-btn" data-tab="tab-table" role="tab" aria-selected="false">
+          <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+          Character Inspector
+        </button>
+      </nav>
+
+      <!-- Tab 1: ASCII Encodings -->
+      <section id="tab-converter" class="tab-panel active" role="tabpanel">
+        <div class="formatting-options">
+          <label class="control-label" for="delimiter-select">Delimiter:</label>
+          <select id="delimiter-select" class="select-dropdown">
+            <option value="space" selected>Space ( )</option>
+            <option value="comma">Comma (, )</option>
+            <option value="none">None</option>
+            <option value="dash">Dash (-)</option>
+          </select>
+
+          <label class="control-label" for="hex-prefix-select">Hex Format:</label>
+          <select id="hex-prefix-select" class="select-dropdown">
+            <option value="plain" selected>Plain (48 65)</option>
+            <option value="0x">0x Prefix (0x48 0x65)</option>
+            <option value="\x">\x Escape (\x48\x65)</option>
+            <option value="lowercase">Lowercase (48 65)</option>
+          </select>
+        </div>
+
+        <div class="results-grid">
+          <!-- Decimal Card -->
+          <div class="result-card">
+            <div class="result-header">
+              <div class="format-tag decimal">DECIMAL (Base 10)</div>
+              <button class="copy-btn" data-target="out-decimal" title="Copy to clipboard">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                Copy
+              </button>
+            </div>
+            <pre class="code-output" id="out-decimal"></pre>
+          </div>
+
+          <!-- Hexadecimal Card -->
+          <div class="result-card">
+            <div class="result-header">
+              <div class="format-tag hex">HEXADECIMAL (Base 16)</div>
+              <button class="copy-btn" data-target="out-hex" title="Copy to clipboard">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                Copy
+              </button>
+            </div>
+            <pre class="code-output" id="out-hex"></pre>
+          </div>
+
+          <!-- Binary Card -->
+          <div class="result-card full-width">
+            <div class="result-header">
+              <div class="format-tag binary">BINARY 8-BIT (Base 2)</div>
+              <button class="copy-btn" data-target="out-binary" title="Copy to clipboard">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                Copy
+              </button>
+            </div>
+            <pre class="code-output" id="out-binary"></pre>
+          </div>
+
+          <!-- Octal Card -->
+          <div class="result-card">
+            <div class="result-header">
+              <div class="format-tag octal">OCTAL (Base 8)</div>
+              <button class="copy-btn" data-target="out-octal" title="Copy to clipboard">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                Copy
+              </button>
+            </div>
+            <pre class="code-output" id="out-octal"></pre>
+          </div>
+
+          <!-- HTML Entity Card -->
+          <div class="result-card">
+            <div class="result-header">
+              <div class="format-tag html">HTML ENTITIES (&#000;)</div>
+              <button class="copy-btn" data-target="out-html" title="Copy to clipboard">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                Copy
+              </button>
+            </div>
+            <pre class="code-output" id="out-html"></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tab 2: ASCII Art Banners -->
+      <section id="tab-art" class="tab-panel" role="tabpanel">
+        <div class="art-controls">
+          <div class="control-group">
+            <label for="font-select" class="control-label">Art Style:</label>
+            <select id="font-select" class="select-dropdown">
+              <option value="block" selected>Block Banner</option>
+              <option value="slant">Slanted 3D</option>
+              <option value="bubble">Bubble Text</option>
+              <option value="mini">Mini Grid</option>
+              <option value="morse">Morse Code</option>
+            </select>
+          </div>
+
+          <div class="control-actions">
+            <button id="btn-copy-art" class="btn btn-primary btn-sm">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              Copy Art
+            </button>
+            <button id="btn-download-art" class="btn btn-secondary btn-sm">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              Download .txt
+            </button>
+          </div>
+        </div>
+
+        <div class="art-output-wrapper">
+          <pre id="art-output" class="art-display"></pre>
+        </div>
+      </section>
+
+      <!-- Tab 3: Character Inspector Table -->
+      <section id="tab-table" class="tab-panel" role="tabpanel">
+        <div class="table-responsive">
+          <table class="inspector-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Char</th>
+                <th>Decimal</th>
+                <th>Hex</th>
+                <th>Octal</th>
+                <th>Binary (8-bit)</th>
+                <th>Category / Name</th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">Copied to clipboard!</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Created by <a href="https://github.com/Samiksha-1312" target="_blank" rel="noopener">Samiksha Kalekar</a> &bull; Open Source on <a href="https://github.com/Samiksha-1312/words-to-ascii" target="_blank" rel="noopener">GitHub</a></p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
