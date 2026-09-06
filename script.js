@@ -1,6 +1,6 @@
-// Words to ASCII - Core Logic
+// LuminaLearn ASCII Converter - Core Logic
 
-// Standard ASCII Control Characters (0-31 and 127)
+// Standard ASCII Control Characters Mapping (0-31 and 127)
 const ASCII_CONTROL_NAMES = {
   0: 'NUL',
   1: 'SOH',
@@ -40,6 +40,8 @@ const ASCII_CONTROL_NAMES = {
 
 // DOM Elements
 const textInput = document.getElementById('text-input');
+const btnSample = document.getElementById('btn-sample');
+const btnClear = document.getElementById('btn-clear');
 const statChars = document.getElementById('stat-chars');
 const statWords = document.getElementById('stat-words');
 const statBytes = document.getElementById('stat-bytes');
@@ -51,15 +53,15 @@ function escapeHtml(str) {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
-// Format Character Representation
-function formatCharacter(char, code) {
+// Display format for a character
+function formatCharacterDisplay(char, code) {
   if (ASCII_CONTROL_NAMES[code]) {
-    return `<span class="control-tag">${ASCII_CONTROL_NAMES[code]}</span>`;
+    return `<span class="char-special">${ASCII_CONTROL_NAMES[code]}</span>`;
   }
-  return escapeHtml(char);
+  return `<span class="char-printable">${escapeHtml(char)}</span>`;
 }
 
-// Format Hexadecimal (uppercase, 2 digits)
+// Format Hexadecimal (uppercase 2 digits)
 function formatHex(code) {
   return code.toString(16).toUpperCase().padStart(2, '0');
 }
@@ -69,7 +71,7 @@ function formatBinary(code) {
   return code.toString(2).padStart(8, '0');
 }
 
-// Format Octal (standard representation, e.g. 65 -> 101)
+// Format Octal (standard representation, e.g. 72 -> 110)
 function formatOctal(code) {
   return code.toString(8);
 }
@@ -93,8 +95,8 @@ function updateNumbersTable() {
   if (chars === 0) {
     numbersTbody.innerHTML = `
       <tr>
-        <td colspan="5" class="empty-state">
-          Enter text above to see the ASCII numerical representation.
+        <td colspan="5" class="table-empty">
+          Enter text above to see its ASCII numerical representations.
         </td>
       </tr>
     `;
@@ -108,8 +110,8 @@ function updateNumbersTable() {
 
     rows.push(`
       <tr>
-        <td class="col-char">${formatCharacter(char, code)}</td>
-        <td class="col-code">${code}</td>
+        <td class="col-char">${formatCharacterDisplay(char, code)}</td>
+        <td class="col-num">${code}</td>
         <td class="col-code">${formatHex(code)}</td>
         <td class="col-code font-mono">${formatBinary(code)}</td>
         <td class="col-code font-mono">${formatOctal(code)}</td>
@@ -127,14 +129,14 @@ function renderReferenceTable() {
   for (let code = 0; code <= 127; code++) {
     let charDisplay;
     if (ASCII_CONTROL_NAMES[code]) {
-      charDisplay = `<span class="control-tag">${ASCII_CONTROL_NAMES[code]}</span>`;
+      charDisplay = `<span class="char-special">${ASCII_CONTROL_NAMES[code]}</span>`;
     } else {
-      charDisplay = escapeHtml(String.fromCharCode(code));
+      charDisplay = `<span class="char-printable">${escapeHtml(String.fromCharCode(code))}</span>`;
     }
 
     rows.push(`
       <tr>
-        <td class="col-code">${code}</td>
+        <td class="col-num">${code}</td>
         <td class="col-code">${formatHex(code)}</td>
         <td class="col-char">${charDisplay}</td>
         <td class="col-code font-mono">${formatBinary(code)}</td>
@@ -149,6 +151,18 @@ function renderReferenceTable() {
 // Event Listeners
 textInput.addEventListener('input', updateNumbersTable);
 
-// Initialization
+btnSample.addEventListener('click', () => {
+  textInput.value = 'Hello World';
+  updateNumbersTable();
+  textInput.focus();
+});
+
+btnClear.addEventListener('click', () => {
+  textInput.value = '';
+  updateNumbersTable();
+  textInput.focus();
+});
+
+// Initial Render
 updateNumbersTable();
 renderReferenceTable();
