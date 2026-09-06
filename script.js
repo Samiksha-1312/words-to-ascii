@@ -1,4 +1,4 @@
-// ASCII Converter - Simple Number Lookup Tool
+// Word / Sentence to ASCII Number Converter
 
 // Standard ASCII Control Characters Mapping (0-32 and 127)
 const ASCII_CONTROL_NAMES = {
@@ -39,31 +39,18 @@ const ASCII_CONTROL_NAMES = {
 };
 
 // DOM Elements
-const asciiInput = document.getElementById('ascii-input');
+const textInput = document.getElementById('text-input');
+const btnSample = document.getElementById('btn-sample');
 const btnClear = document.getElementById('btn-clear');
-const inputError = document.getElementById('input-error');
-const resultContent = document.getElementById('result-content');
-const emptyResult = document.getElementById('empty-result');
-
-const prominentChar = document.getElementById('prominent-char');
-const resDec = document.getElementById('res-dec');
-const resHex = document.getElementById('res-hex');
-const resBin = document.getElementById('res-bin');
-const resOct = document.getElementById('res-oct');
-
+const btnCopy = document.getElementById('btn-copy');
+const asciiNumbersDisplay = document.getElementById('ascii-numbers-display');
+const breakdownTbody = document.getElementById('breakdown-tbody');
 const tableBody = document.getElementById('table-body');
+const toast = document.getElementById('toast');
 
 // HTML Escape helper
 function escapeHtml(str) {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
-
-// Get display label for an ASCII code
-function getCharacterDisplay(code) {
-  if (ASCII_CONTROL_NAMES[code]) {
-    return ASCII_CONTROL_NAMES[code];
-  }
-  return String.fromCharCode(code);
 }
 
 // Format Hex (2 digits uppercase)
@@ -76,85 +63,74 @@ function formatBinary(code) {
   return code.toString(2).padStart(8, '0');
 }
 
-// Format Octal (standard representation, e.g. 65 -> 101, 0 -> 0)
+// Format Octal (standard representation, e.g. 65 -> 101, 32 -> 40, 0 -> 0)
 function formatOctal(code) {
   return code.toString(8);
 }
 
-// Highlight active table row
-function highlightTableRow(code) {
-  const allRows = tableBody.querySelectorAll('tr');
-  allRows.forEach(row => {
-    if (parseInt(row.getAttribute('data-code'), 10) === code) {
-      row.classList.add('row-active');
-    } else {
-      row.classList.remove('row-active');
-    }
-  });
+// Get character display HTML
+function getCharacterDisplay(char, code) {
+  if (ASCII_CONTROL_NAMES[code]) {
+    return `<span class="char-special">${ASCII_CONTROL_NAMES[code]}</span>`;
+  }
+  return `<span class="char-text">${escapeHtml(char)}</span>`;
 }
 
-// Update Section 2: Your ASCII Number
-function updateLookup() {
-  const valStr = asciiInput.value.trim();
+// Update Section 2: Your ASCII Numbers
+function updateConversion() {
+  const text = textInput.value;
 
-  if (valStr === '') {
-    inputError.style.display = 'none';
-    resultContent.style.display = 'none';
-    emptyResult.style.display = 'block';
-    highlightTableRow(-1);
+  if (text.length === 0) {
+    asciiNumbersDisplay.textContent = '';
+    breakdownTbody.innerHTML = `
+      <tr>
+        <td colspan="2" class="empty-state">
+          Enter a word or sentence above to see ASCII decimal numbers.
+        </td>
+      </tr>
+    `;
     return;
   }
 
-  const num = Number(valStr);
+  const decimalNumbers = [];
+  const breakdownRows = [];
 
-  if (isNaN(num) || !Number.isInteger(num) || num < 0 || num > 127) {
-    inputError.style.display = 'block';
-    resultContent.style.display = 'none';
-    emptyResult.style.display = 'block';
-    highlightTableRow(-1);
-    return;
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i];
+    const code = text.charCodeAt(i);
+
+    decimalNumbers.push(code);
+
+    breakdownRows.push(`
+      <tr>
+        <td class="col-char">${getCharacterDisplay(char, code)}</td>
+        <td class="col-dec font-mono">${code}</td>
+      </tr>
+    `);
   }
 
-  // Valid ASCII number
-  inputError.style.display = 'none';
-  resultContent.style.display = 'flex';
-  emptyResult.style.display = 'none';
-
-  const charName = getCharacterDisplay(num);
-  const isControl = Boolean(ASCII_CONTROL_NAMES[num]);
-
-  prominentChar.textContent = charName;
-  if (isControl) {
-    prominentChar.classList.add('is-control');
-  } else {
-    prominentChar.classList.remove('is-control');
-  }
-
-  resDec.textContent = num.toString(10);
-  resHex.textContent = formatHex(num);
-  resBin.textContent = formatBinary(num);
-  resOct.textContent = formatOctal(num);
-
-  highlightTableRow(num);
+  // Primary output: ASCII Decimal numbers separated by space
+  asciiNumbersDisplay.textContent = decimalNumbers.join(' ');
+  breakdownTbody.innerHTML = breakdownRows.join('');
 }
 
-// Populate Section 3: Complete ASCII Table (0–127)
+// Populate Section 3: Standard ASCII Reference Table (0–127)
 function renderAsciiTable() {
   const rows = [];
 
   for (let code = 0; code <= 127; code++) {
-    const isControl = Boolean(ASCII_CONTROL_NAMES[code]);
-    const charDisplay = getCharacterDisplay(code);
-
-    const charHtml = isControl
-      ? `<span class="table-control-tag">${escapeHtml(charDisplay)}</span>`
-      : `<span class="table-char-text">${escapeHtml(charDisplay)}</span>`;
+    let charDisplay;
+    if (ASCII_CONTROL_NAMES[code]) {
+      charDisplay = `<span class="char-special">${ASCII_CONTROL_NAMES[code]}</span>`;
+    } else {
+      charDisplay = `<span class="char-text">${escapeHtml(String.fromCharCode(code))}</span>`;
+    }
 
     rows.push(`
-      <tr data-code="${code}">
+      <tr>
         <td class="col-dec">${code}</td>
         <td class="col-mono">${formatHex(code)}</td>
-        <td class="col-char">${charHtml}</td>
+        <td class="col-char">${charDisplay}</td>
         <td class="col-mono">${formatBinary(code)}</td>
         <td class="col-mono">${formatOctal(code)}</td>
       </tr>
@@ -162,27 +138,60 @@ function renderAsciiTable() {
   }
 
   tableBody.innerHTML = rows.join('');
+}
 
-  // Allow clicking any row to set input
-  tableBody.querySelectorAll('tr').forEach(row => {
-    row.addEventListener('click', () => {
-      const code = row.getAttribute('data-code');
-      asciiInput.value = code;
-      updateLookup();
-      asciiInput.focus();
-    });
-  });
+// Toast notification helper
+let toastTimer = null;
+function showToast(message = 'Copied to clipboard!') {
+  toast.textContent = message;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 2000);
+}
+
+// Copy to clipboard
+function copyOutput() {
+  const text = asciiNumbersDisplay.textContent.trim();
+  if (!text) return;
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(() => showToast());
+  } else {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+      document.execCommand('copy');
+      showToast();
+    } catch (err) {
+      console.error('Copy failed:', err);
+    }
+    document.body.removeChild(textarea);
+  }
 }
 
 // Event Listeners
-asciiInput.addEventListener('input', updateLookup);
+textInput.addEventListener('input', updateConversion);
+
+btnSample.addEventListener('click', () => {
+  textInput.value = 'Hello World';
+  updateConversion();
+  textInput.focus();
+});
 
 btnClear.addEventListener('click', () => {
-  asciiInput.value = '';
-  updateLookup();
-  asciiInput.focus();
+  textInput.value = '';
+  updateConversion();
+  textInput.focus();
 });
+
+btnCopy.addEventListener('click', copyOutput);
 
 // Initialization
 renderAsciiTable();
-updateLookup();
+updateConversion();

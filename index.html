@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ASCII Converter | ASCII Number Lookup</title>
+  <title>ASCII Converter | Words to ASCII Numbers</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -11,64 +11,59 @@
 </head>
 <body>
   <div class="page-container">
-    <!-- Header -->
+    <!-- Compact Header -->
     <header class="page-header">
       <h1 class="page-title">ASCII Converter</h1>
-      <p class="page-subtitle">Look up any ASCII number from 0 to 127 to view its character, hexadecimal, binary, and octal encodings.</p>
+      <p class="page-subtitle">Convert words and sentences into ASCII decimal numbers.</p>
     </header>
 
-    <!-- Main Content: 3 Sections in Exact Order -->
+    <!-- Main Content: 3 Sections in exact order -->
     <main class="content-wrapper">
-      <!-- Section 1: Enter Your Number -->
+      <!-- Section 1: Enter Your Text -->
       <section class="card" id="section-input">
-        <h2 class="section-title">Enter Your Number</h2>
-        <div class="input-row">
-          <input 
-            type="number" 
-            id="ascii-input" 
-            class="number-input" 
-            min="0" 
-            max="127" 
-            value="65" 
-            placeholder="Enter ASCII number (0–127)"
-          >
-          <button type="button" id="btn-clear" class="btn btn-secondary">Clear</button>
+        <div class="card-header-bar">
+          <h2 class="section-title">Enter Your Text</h2>
+          <div class="button-group">
+            <button type="button" id="btn-sample" class="btn btn-primary">Sample</button>
+            <button type="button" id="btn-clear" class="btn btn-secondary">Clear</button>
+          </div>
         </div>
-        <p id="input-error" class="error-message" style="display: none;">Please enter a valid ASCII number between 0 and 127.</p>
+
+        <textarea 
+          id="text-input" 
+          class="text-input" 
+          rows="3" 
+          placeholder="Enter a word or sentence..."
+        >Hello World</textarea>
       </section>
 
-      <!-- Section 2: Your ASCII Number -->
-      <section class="card" id="section-result">
-        <h2 class="section-title">Your ASCII Number</h2>
-        
-        <div id="result-content" class="result-box">
-          <div class="char-display-area">
-            <span class="char-display-label">Character</span>
-            <div id="prominent-char" class="prominent-char">A</div>
-          </div>
-
-          <div class="info-grid">
-            <div class="info-item">
-              <span class="info-label">ASCII Number</span>
-              <span id="res-dec" class="info-value">65</span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">Hex</span>
-              <span id="res-hex" class="info-value font-mono">41</span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">Binary</span>
-              <span id="res-bin" class="info-value font-mono">01000001</span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">Octal</span>
-              <span id="res-oct" class="info-value font-mono">101</span>
-            </div>
-          </div>
+      <!-- Section 2: Your ASCII Numbers -->
+      <section class="card" id="section-output">
+        <div class="card-header-bar">
+          <h2 class="section-title">Your ASCII Numbers</h2>
+          <button type="button" id="btn-copy" class="btn btn-secondary btn-sm" title="Copy ASCII numbers">
+            Copy Numbers
+          </button>
         </div>
 
-        <div id="empty-result" class="empty-state" style="display: none;">
-          Enter a number between 0 and 127 above to see its ASCII information.
+        <!-- Prominent ASCII Decimal Numbers Output -->
+        <div class="output-container">
+          <div id="ascii-numbers-display" class="ascii-numbers-box font-mono">72 101 108 108 111 32 87 111 114 108 100</div>
+        </div>
+
+        <!-- Optional Compact Character Breakdown Table -->
+        <div class="breakdown-wrapper">
+          <table class="compact-breakdown-table">
+            <thead>
+              <tr>
+                <th>Character</th>
+                <th>ASCII Decimal</th>
+              </tr>
+            </thead>
+            <tbody id="breakdown-tbody">
+              <!-- Dynamically populated from text input -->
+            </tbody>
+          </table>
         </div>
       </section>
 
@@ -91,7 +86,7 @@
               </tr>
             </thead>
             <tbody id="table-body">
-              <!-- Dynamically populated 0-127 -->
+              <!-- Complete ASCII 0-127 populated dynamically -->
             </tbody>
           </table>
         </div>
@@ -100,9 +95,12 @@
 
     <!-- Footer -->
     <footer class="page-footer">
-      <p>ASCII Converter &bull; Educational Lookup Tool</p>
+      <p>ASCII Converter &bull; Educational Word to ASCII Tool</p>
     </footer>
   </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">Copied to clipboard!</div>
 
   <script src="script.js"></script>
 </body>

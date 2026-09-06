@@ -1,6 +1,6 @@
-# ASCII Converter &bull; Number Lookup Tool
+# ASCII Converter &bull; Words to ASCII Numbers
 
-A clean, modern, and educational ASCII number lookup utility with a LuminaLearn-inspired palette.
+A clean, modern, educational tool for converting words and sentences into their standard ASCII decimal numbers, built with a LuminaLearn-inspired navy/slate design system.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-3D5A80.svg)](https://opensource.org/licenses/MIT)
 [![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
@@ -9,27 +9,28 @@ A clean, modern, and educational ASCII number lookup utility with a LuminaLearn-
 
 ---
 
-## 📘 3-Step User Journey
+## 📘 3 Simple Sections
 
-1. **Enter Your Number**
-   - Simple number input to enter any ASCII decimal number between **0 and 127** (with validation and Clear button).
-2. **Your ASCII Number**
-   - Displays the character prominently (e.g. `A`, `LF`, `SPACE`, `DEL`).
-   - Shows comprehensive encodings: **ASCII Number (Decimal)**, **Hexadecimal**, **Binary (8-bit)**, and **Octal**.
+1. **Enter Your Text**
+   - Clean textarea accepting single words, multiple words, or sentences.
+   - Quick **Sample** and **Clear** buttons.
+2. **Your ASCII Numbers**
+   - Prominently displays the converted ASCII decimal numbers (space-separated, e.g. `Samiksha` $\rightarrow$ `83 97 109 105 107 115 104 97`).
+   - Space is converted to `32`.
+   - One-click **Copy Numbers** button.
+   - Optional compact breakdown table (`Character | ASCII Decimal`).
 3. **ASCII Table**
-   - Complete reference table displaying all standard ASCII values from **0 to 127** with columns: **Decimal**, **Hex**, **Character**, **Binary**, and **Octal**.
-   - Standard control characters (`NUL` through `US`, `DEL`) clearly labeled.
-   - Click any row in the table to instantly inspect that character above.
+   - Complete reference table displaying all standard ASCII characters from **0 to 127** with columns: **Decimal**, **Hex**, **Character**, **Binary**, and **Octal**.
 
 ---
 
-## 🎨 Design Palette
+## 🎨 LuminaLearn Palette
 
 - **Background**: `#0B1320` (Deep navy canvas)
-- **Cards**: `#111C2D` (Rounded cards, `border-radius: 12px`)
+- **Cards**: `#111C2D` (Slate cards, `border-radius: 12px`)
 - **Secondary Surfaces**: `#18263A`
 - **Primary Brand**: `#3D5A80`
-- **Secondary Accent**: `#6FA8DC`
+- **Accent Soft**: `#6FA8DC`
 - **Text**: `#F5F7FA` (Primary) & `#AAB7C6` (Secondary)
 - **Borders**: `#2A3A50`
 
