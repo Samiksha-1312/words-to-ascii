@@ -1,6 +1,6 @@
-# ASCII Converter &bull; LuminaLearn
+# ASCII Converter &bull; Number Lookup Tool
 
-A clean, modern, and academic ASCII utility built with the **LuminaLearn** design system and color palette.
+A clean, modern, and educational ASCII number lookup utility with a LuminaLearn-inspired palette.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-3D5A80.svg)](https://opensource.org/licenses/MIT)
 [![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
@@ -9,38 +9,36 @@ A clean, modern, and academic ASCII utility built with the **LuminaLearn** desig
 
 ---
 
-## 📘 Overview
+## 📘 3-Step User Journey
 
-Designed as a native educational module within the **LuminaLearn** ecosystem, this tool provides an intuitive and focused interface for exploring ASCII character encoding.
-
-### 1. ASCII Numbers
-- Convert text into its standard ASCII numerical representations in real-time.
-- Responsive table with columns: **Character**, **Decimal**, **Hex**, **Binary**, and **Octal**.
-- Real-time text metadata: **Characters**, **Words**, and **Bytes**.
-- Quick **Sample** and **Clear** actions.
-
-### 2. ASCII Table
-- Complete standard ASCII reference table from **0 to 127**.
-- Columns: **Decimal**, **Hex**, **Character**, **Binary**, and **Octal**.
-- Standard control characters formatted with clean tags (`NUL`, `SOH`, `STX`, `ETX`, `EOT`, `ENQ`, `ACK`, `BEL`, `BS`, `TAB`, `LF`, `VT`, `FF`, `CR`, `SO`, `SI`, `DLE`, `DC1`, `DC2`, `DC3`, `DC4`, `NAK`, `SYN`, `ETB`, `CAN`, `EM`, `SUB`, `ESC`, `FS`, `GS`, `RS`, `US`, `DEL`).
-- Printable characters displayed clearly.
+1. **Enter Your Number**
+   - Simple number input to enter any ASCII decimal number between **0 and 127** (with validation and Clear button).
+2. **Your ASCII Number**
+   - Displays the character prominently (e.g. `A`, `LF`, `SPACE`, `DEL`).
+   - Shows comprehensive encodings: **ASCII Number (Decimal)**, **Hexadecimal**, **Binary (8-bit)**, and **Octal**.
+3. **ASCII Table**
+   - Complete reference table displaying all standard ASCII values from **0 to 127** with columns: **Decimal**, **Hex**, **Character**, **Binary**, and **Octal**.
+   - Standard control characters (`NUL` through `US`, `DEL`) clearly labeled.
+   - Click any row in the table to instantly inspect that character above.
 
 ---
 
-## 🎨 LuminaLearn Design System
+## 🎨 Design Palette
 
-- **Primary Brand**: `#3D5A80` (Deep steel blue)
-- **Accent Soft**: `#98C1D9` & `#EBF2FA`
-- **Background**: `#F4F6F9` (Clean light slate)
-- **Cards**: Pure `#FFFFFF` with subtle borders (`#E5E9F0`) and soft elevation
-- **Typography**: Clean, professional `'Nunito Sans'` pairing with monospace `'Fira Code'` for character encodings
+- **Background**: `#0B1320` (Deep navy canvas)
+- **Cards**: `#111C2D` (Rounded cards, `border-radius: 12px`)
+- **Secondary Surfaces**: `#18263A`
+- **Primary Brand**: `#3D5A80`
+- **Secondary Accent**: `#6FA8DC`
+- **Text**: `#F5F7FA` (Primary) & `#AAB7C6` (Secondary)
+- **Borders**: `#2A3A50`
 
 ---
 
 ## 🌐 Live Access
 
-- **Live Deployed App**: [https://samiksha-1312.github.io/words-to-ascii/](https://samiksha-1312.github.io/words-to-ascii/)
-- **GitHub Repository**: [https://github.com/Samiksha-1312/words-to-ascii](https://github.com/Samiksha-1312/words-to-ascii)
+- **GitHub Pages**: [https://samiksha-1312.github.io/words-to-ascii/](https://samiksha-1312.github.io/words-to-ascii/)
+- **Repository**: [https://github.com/Samiksha-1312/words-to-ascii](https://github.com/Samiksha-1312/words-to-ascii)
 
 ---
 

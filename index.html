@@ -3,76 +3,84 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ASCII Converter</title>
+  <title>ASCII Converter | ASCII Number Lookup</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="page-container">
-    <!-- Compact Header -->
+    <!-- Header -->
     <header class="page-header">
-      <h1 class="page-title"><span class="title-accent">ASCII</span> Converter</h1>
-      <p class="page-subtitle">Convert text into decimal, hexadecimal, binary and octal ASCII values.</p>
+      <h1 class="page-title">ASCII Converter</h1>
+      <p class="page-subtitle">Look up any ASCII number from 0 to 127 to view its character, hexadecimal, binary, and octal encodings.</p>
     </header>
 
-    <!-- Main Content -->
-    <main class="content-layout">
-      <!-- Card 1: ASCII Numbers -->
-      <section class="card" id="card-numbers">
-        <div class="card-header">
-          <h2 class="card-title">ASCII Numbers</h2>
-          <p class="card-subtitle">Convert each character into its ASCII numerical representations.</p>
+    <!-- Main Content: 3 Sections in Exact Order -->
+    <main class="content-wrapper">
+      <!-- Section 1: Enter Your Number -->
+      <section class="card" id="section-input">
+        <h2 class="section-title">Enter Your Number</h2>
+        <div class="input-row">
+          <input 
+            type="number" 
+            id="ascii-input" 
+            class="number-input" 
+            min="0" 
+            max="127" 
+            value="65" 
+            placeholder="Enter ASCII number (0–127)"
+          >
+          <button type="button" id="btn-clear" class="btn btn-secondary">Clear</button>
         </div>
+        <p id="input-error" class="error-message" style="display: none;">Please enter a valid ASCII number between 0 and 127.</p>
+      </section>
 
-        <div class="input-group">
-          <div class="input-top-bar">
-            <label for="text-input" class="input-label">Enter Text</label>
-            <div class="button-row">
-              <button type="button" id="btn-sample" class="btn btn-primary">Sample</button>
-              <button type="button" id="btn-clear" class="btn btn-secondary">Clear</button>
+      <!-- Section 2: Your ASCII Number -->
+      <section class="card" id="section-result">
+        <h2 class="section-title">Your ASCII Number</h2>
+        
+        <div id="result-content" class="result-box">
+          <div class="char-display-area">
+            <span class="char-display-label">Character</span>
+            <div id="prominent-char" class="prominent-char">A</div>
+          </div>
+
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="info-label">ASCII Number</span>
+              <span id="res-dec" class="info-value">65</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Hex</span>
+              <span id="res-hex" class="info-value font-mono">41</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Binary</span>
+              <span id="res-bin" class="info-value font-mono">01000001</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Octal</span>
+              <span id="res-oct" class="info-value font-mono">101</span>
             </div>
           </div>
-
-          <textarea id="text-input" class="text-area" rows="3" placeholder="Enter text here...">Hello World</textarea>
-
-          <div class="stats-row">
-            <span id="stat-chars">Characters: 11</span>
-            <span class="stat-divider">&bull;</span>
-            <span id="stat-words">Words: 2</span>
-            <span class="stat-divider">&bull;</span>
-            <span id="stat-bytes">Bytes: 11 B</span>
-          </div>
         </div>
 
-        <div class="table-container">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Character</th>
-                <th>Decimal</th>
-                <th>Hex</th>
-                <th>Binary</th>
-                <th>Octal</th>
-              </tr>
-            </thead>
-            <tbody id="numbers-tbody">
-              <!-- Dynamically rendered -->
-            </tbody>
-          </table>
+        <div id="empty-result" class="empty-state" style="display: none;">
+          Enter a number between 0 and 127 above to see its ASCII information.
         </div>
       </section>
 
-      <!-- Card 2: ASCII Table -->
-      <section class="card" id="card-table">
-        <div class="card-header">
-          <h2 class="card-title">ASCII Table</h2>
-          <p class="card-subtitle">Standard ASCII characters from 0 to 127.</p>
+      <!-- Section 3: ASCII Table -->
+      <section class="card" id="section-table">
+        <div class="table-header-block">
+          <h2 class="section-title">ASCII Table</h2>
+          <p class="section-subtitle">Standard ASCII characters from 0 to 127.</p>
         </div>
 
         <div class="table-container scrollable-table">
-          <table class="data-table">
+          <table class="ascii-table">
             <thead>
               <tr>
                 <th>Decimal</th>
@@ -82,17 +90,17 @@
                 <th>Octal</th>
               </tr>
             </thead>
-            <tbody id="reference-tbody">
-              <!-- Dynamically populated 0 to 127 -->
+            <tbody id="table-body">
+              <!-- Dynamically populated 0-127 -->
             </tbody>
           </table>
         </div>
       </section>
     </main>
 
-    <!-- Clean Minimal Footer -->
+    <!-- Footer -->
     <footer class="page-footer">
-      <p>ASCII Converter &bull; Educational Reference Tool</p>
+      <p>ASCII Converter &bull; Educational Lookup Tool</p>
     </footer>
   </div>
 

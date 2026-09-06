@@ -1,12 +1,12 @@
-/* Educational ASCII Converter - LuminaLearn Style */
+/* ASCII Number Lookup Tool - LuminaLearn Style */
 :root {
-  /* Requested Color Palette */
   --bg-page: #0B1320;
   --bg-card: #111C2D;
   --bg-surface: #18263A;
   --bg-surface-hover: #21344E;
   --bg-row-alt: #142135;
   --bg-row-hover: #1C2D46;
+  --bg-row-active: rgba(61, 90, 128, 0.35);
 
   --color-primary: #3D5A80;
   --color-primary-hover: #4E719E;
@@ -15,6 +15,7 @@
   --text-primary: #F5F7FA;
   --text-secondary: #AAB7C6;
   --text-muted: #7E8E9F;
+  --text-error: #E57373;
 
   --border-color: #2A3A50;
   --border-subtle: #1E2D42;
@@ -39,19 +40,19 @@ body {
   padding: 40px 20px;
 }
 
-/* Centered Container */
+/* Unified Centered Layout */
 .page-container {
-  max-width: 1040px;
+  max-width: 960px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 24px;
 }
 
 /* Header */
 .page-header {
   text-align: center;
-  padding: 8px 0 12px 0;
+  padding: 6px 0 10px 0;
 }
 
 .page-title {
@@ -62,106 +63,99 @@ body {
   margin-bottom: 6px;
 }
 
-.title-accent {
-  color: var(--color-accent);
-}
-
 .page-subtitle {
   font-size: 1rem;
   color: var(--text-secondary);
   font-weight: 400;
-  max-width: 600px;
+  max-width: 620px;
   margin: 0 auto;
 }
 
-/* Main Content Layout */
-.content-layout {
+/* Content Layout: 3 Sections in exact order */
+.content-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 24px;
 }
 
-/* Card */
+/* Card Styling */
 .card {
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 32px;
+  padding: 28px 32px;
 }
 
-.card-header {
-  margin-bottom: 24px;
-  padding-bottom: 16px;
+.section-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.table-header-block {
+  margin-bottom: 20px;
+  padding-bottom: 14px;
   border-bottom: 1px solid var(--border-color);
 }
 
-.card-title {
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: var(--text-primary);
+.table-header-block .section-title {
   margin-bottom: 4px;
 }
 
-.card-subtitle {
+.section-subtitle {
   font-size: 0.95rem;
   color: var(--text-secondary);
   font-weight: 400;
 }
 
-/* Input Area */
-.input-group {
+/* Section 1: Enter Your Number */
+.input-row {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 24px;
-}
-
-.input-top-bar {
-  display: flex;
-  justify-content: space-between;
+  gap: 12px;
   align-items: center;
 }
 
-.input-label {
-  font-size: 0.95rem;
-  font-weight: 600;
+.number-input {
+  flex: 1;
+  padding: 12px 16px;
+  font-family: inherit;
+  font-size: 1.05rem;
   color: var(--text-primary);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.button-row {
-  display: flex;
-  gap: 8px;
+.number-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(61, 90, 128, 0.25);
 }
 
-/* Buttons (Clean, Professional, Not Pill-Shaped) */
+.number-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-family: inherit;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 600;
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.btn-primary {
-  background-color: var(--color-primary);
-  color: var(--text-primary);
-  border: none;
-  padding: 7px 18px;
-}
-
-.btn-primary:hover {
-  background-color: var(--color-primary-hover);
-}
-
 .btn-secondary {
   background-color: var(--bg-surface);
   color: var(--text-secondary);
   border: 1px solid var(--border-color);
-  padding: 6px 16px;
+  padding: 11px 22px;
 }
 
 .btn-secondary:hover {
@@ -170,44 +164,105 @@ body {
   border-color: var(--color-primary);
 }
 
-/* Textarea */
-.text-area {
-  width: 100%;
-  padding: 12px 16px;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.975rem;
-  color: var(--text-primary);
+.error-message {
+  margin-top: 10px;
+  color: var(--text-error);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Section 2: Your ASCII Number (Prominent Result) */
+.result-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.char-display-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  resize: vertical;
-  min-height: 85px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+  max-width: 240px;
+  padding: 20px 24px;
 }
 
-.text-area:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(61, 90, 128, 0.25);
-}
-
-/* Stats Row */
-.stats-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.85rem;
+.char-display-label {
+  font-size: 0.775rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   color: var(--text-secondary);
-  font-weight: 500;
-  padding-top: 2px;
+  font-weight: 700;
+  margin-bottom: 8px;
 }
 
-.stat-divider {
-  color: var(--border-color);
-  font-size: 0.75rem;
+.prominent-char {
+  font-size: 4rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.1;
+  text-align: center;
 }
 
-/* Table Container */
+.prominent-char.is-control {
+  font-size: 2.2rem;
+  color: var(--color-accent);
+  font-family: 'Fira Code', monospace;
+  font-weight: 700;
+}
+
+/* Info Grid */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+
+.info-item {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+}
+
+.info-label {
+  font-size: 0.775rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  font-weight: 700;
+}
+
+.info-value {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.font-mono {
+  font-family: 'Fira Code', monospace;
+  letter-spacing: 0.02em;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 32px 16px;
+  color: var(--text-secondary);
+  font-style: italic;
+  font-size: 0.95rem;
+}
+
+/* Section 3: ASCII Table */
 .table-container {
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
@@ -216,18 +271,17 @@ body {
 }
 
 .scrollable-table {
-  max-height: 480px;
+  max-height: 520px;
   overflow-y: auto;
 }
 
-/* Data Table */
-.data-table {
+.ascii-table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
 }
 
-.data-table th {
+.ascii-table th {
   background-color: var(--bg-surface);
   color: var(--text-secondary);
   font-size: 0.8rem;
@@ -241,32 +295,46 @@ body {
   z-index: 5;
 }
 
-.data-table td {
+.ascii-table td {
   padding: 11px 18px;
   border-bottom: 1px solid var(--border-subtle);
   color: var(--text-primary);
   font-size: 0.925rem;
 }
 
-.data-table tbody tr:nth-child(even) {
+.ascii-table tbody tr {
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.ascii-table tbody tr:nth-child(even) {
   background-color: var(--bg-row-alt);
 }
 
-.data-table tbody tr:hover {
+.ascii-table tbody tr:hover {
   background-color: var(--bg-row-hover);
 }
 
-/* Column Formatting */
+.ascii-table tbody tr.row-active {
+  background-color: var(--bg-row-active);
+  border-left: 3px solid var(--color-accent);
+}
+
+.col-dec {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
 .col-char {
   font-weight: 600;
   color: var(--text-primary);
 }
 
-.char-text {
-  font-size: 0.95rem;
+.table-char-text {
+  font-size: 0.975rem;
 }
 
-.char-control {
+.table-control-tag {
   display: inline-block;
   padding: 2px 7px;
   background-color: var(--bg-surface);
@@ -278,22 +346,10 @@ body {
   font-weight: 600;
 }
 
-.col-num {
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
 .col-mono {
   font-family: 'Fira Code', monospace;
   font-size: 0.875rem;
   color: #D1DCE8;
-}
-
-.empty-state {
-  text-align: center;
-  padding: 36px 16px;
-  color: var(--text-secondary);
-  font-style: italic;
 }
 
 /* Footer */
@@ -304,7 +360,7 @@ body {
   color: var(--text-muted);
 }
 
-/* Responsive Breakpoints */
+/* Responsive */
 @media (max-width: 768px) {
   body {
     padding: 24px 14px;
@@ -318,8 +374,23 @@ body {
     font-size: 1.75rem;
   }
 
-  .data-table th,
-  .data-table td {
+  .info-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ascii-table th,
+  .ascii-table td {
     padding: 9px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .input-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
   }
 }

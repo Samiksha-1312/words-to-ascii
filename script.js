@@ -1,6 +1,6 @@
-// ASCII Converter - Core Logic
+// ASCII Converter - Simple Number Lookup Tool
 
-// Standard ASCII Control Characters Mapping (0-31 and 127)
+// Standard ASCII Control Characters Mapping (0-32 and 127)
 const ASCII_CONTROL_NAMES = {
   0: 'NUL',
   1: 'SOH',
@@ -34,135 +34,155 @@ const ASCII_CONTROL_NAMES = {
   29: 'GS',
   30: 'RS',
   31: 'US',
-  32: 'Space',
+  32: 'SPACE',
   127: 'DEL'
 };
 
 // DOM Elements
-const textInput = document.getElementById('text-input');
-const btnSample = document.getElementById('btn-sample');
+const asciiInput = document.getElementById('ascii-input');
 const btnClear = document.getElementById('btn-clear');
-const statChars = document.getElementById('stat-chars');
-const statWords = document.getElementById('stat-words');
-const statBytes = document.getElementById('stat-bytes');
-const numbersTbody = document.getElementById('numbers-tbody');
-const referenceTbody = document.getElementById('reference-tbody');
+const inputError = document.getElementById('input-error');
+const resultContent = document.getElementById('result-content');
+const emptyResult = document.getElementById('empty-result');
+
+const prominentChar = document.getElementById('prominent-char');
+const resDec = document.getElementById('res-dec');
+const resHex = document.getElementById('res-hex');
+const resBin = document.getElementById('res-bin');
+const resOct = document.getElementById('res-oct');
+
+const tableBody = document.getElementById('table-body');
 
 // HTML Escape helper
 function escapeHtml(str) {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
-// Character display renderer
-function formatCharacterDisplay(char, code) {
+// Get display label for an ASCII code
+function getCharacterDisplay(code) {
   if (ASCII_CONTROL_NAMES[code]) {
-    return `<span class="char-control">${ASCII_CONTROL_NAMES[code]}</span>`;
+    return ASCII_CONTROL_NAMES[code];
   }
-  return `<span class="char-text">${escapeHtml(char)}</span>`;
+  return String.fromCharCode(code);
 }
 
-// Format Hexadecimal (uppercase 2 digits)
+// Format Hex (2 digits uppercase)
 function formatHex(code) {
   return code.toString(16).toUpperCase().padStart(2, '0');
 }
 
-// Format Binary (8-bit padded)
+// Format Binary (8 digits padded)
 function formatBinary(code) {
   return code.toString(2).padStart(8, '0');
 }
 
-// Format Octal (standard representation, e.g. 72 -> 110)
+// Format Octal (standard representation, e.g. 65 -> 101, 0 -> 0)
 function formatOctal(code) {
   return code.toString(8);
 }
 
-// Calculate UTF-8 byte count
-function getByteCount(str) {
-  return new TextEncoder().encode(str).length;
+// Highlight active table row
+function highlightTableRow(code) {
+  const allRows = tableBody.querySelectorAll('tr');
+  allRows.forEach(row => {
+    if (parseInt(row.getAttribute('data-code'), 10) === code) {
+      row.classList.add('row-active');
+    } else {
+      row.classList.remove('row-active');
+    }
+  });
 }
 
-// Update Card 1: ASCII Numbers
-function updateNumbersTable() {
-  const text = textInput.value;
-  const chars = text.length;
-  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
-  const bytes = getByteCount(text);
+// Update Section 2: Your ASCII Number
+function updateLookup() {
+  const valStr = asciiInput.value.trim();
 
-  statChars.textContent = `Characters: ${chars}`;
-  statWords.textContent = `Words: ${words}`;
-  statBytes.textContent = `Bytes: ${bytes} B`;
-
-  if (chars === 0) {
-    numbersTbody.innerHTML = `
-      <tr>
-        <td colspan="5" class="empty-state">
-          Enter text above to see its ASCII numerical representations.
-        </td>
-      </tr>
-    `;
+  if (valStr === '') {
+    inputError.style.display = 'none';
+    resultContent.style.display = 'none';
+    emptyResult.style.display = 'block';
+    highlightTableRow(-1);
     return;
   }
 
-  const rows = [];
-  for (let i = 0; i < text.length; i++) {
-    const char = text[i];
-    const code = text.charCodeAt(i);
+  const num = Number(valStr);
 
-    rows.push(`
-      <tr>
-        <td class="col-char">${formatCharacterDisplay(char, code)}</td>
-        <td class="col-num">${code}</td>
-        <td class="col-mono">${formatHex(code)}</td>
-        <td class="col-mono">${formatBinary(code)}</td>
-        <td class="col-mono">${formatOctal(code)}</td>
-      </tr>
-    `);
+  if (isNaN(num) || !Number.isInteger(num) || num < 0 || num > 127) {
+    inputError.style.display = 'block';
+    resultContent.style.display = 'none';
+    emptyResult.style.display = 'block';
+    highlightTableRow(-1);
+    return;
   }
 
-  numbersTbody.innerHTML = rows.join('');
+  // Valid ASCII number
+  inputError.style.display = 'none';
+  resultContent.style.display = 'flex';
+  emptyResult.style.display = 'none';
+
+  const charName = getCharacterDisplay(num);
+  const isControl = Boolean(ASCII_CONTROL_NAMES[num]);
+
+  prominentChar.textContent = charName;
+  if (isControl) {
+    prominentChar.classList.add('is-control');
+  } else {
+    prominentChar.classList.remove('is-control');
+  }
+
+  resDec.textContent = num.toString(10);
+  resHex.textContent = formatHex(num);
+  resBin.textContent = formatBinary(num);
+  resOct.textContent = formatOctal(num);
+
+  highlightTableRow(num);
 }
 
-// Populate Card 2: Standard ASCII Reference Table (0–127)
-function renderReferenceTable() {
+// Populate Section 3: Complete ASCII Table (0–127)
+function renderAsciiTable() {
   const rows = [];
 
   for (let code = 0; code <= 127; code++) {
-    let charDisplay;
-    if (ASCII_CONTROL_NAMES[code]) {
-      charDisplay = `<span class="char-control">${ASCII_CONTROL_NAMES[code]}</span>`;
-    } else {
-      charDisplay = `<span class="char-text">${escapeHtml(String.fromCharCode(code))}</span>`;
-    }
+    const isControl = Boolean(ASCII_CONTROL_NAMES[code]);
+    const charDisplay = getCharacterDisplay(code);
+
+    const charHtml = isControl
+      ? `<span class="table-control-tag">${escapeHtml(charDisplay)}</span>`
+      : `<span class="table-char-text">${escapeHtml(charDisplay)}</span>`;
 
     rows.push(`
-      <tr>
-        <td class="col-num">${code}</td>
+      <tr data-code="${code}">
+        <td class="col-dec">${code}</td>
         <td class="col-mono">${formatHex(code)}</td>
-        <td class="col-char">${charDisplay}</td>
+        <td class="col-char">${charHtml}</td>
         <td class="col-mono">${formatBinary(code)}</td>
         <td class="col-mono">${formatOctal(code)}</td>
       </tr>
     `);
   }
 
-  referenceTbody.innerHTML = rows.join('');
+  tableBody.innerHTML = rows.join('');
+
+  // Allow clicking any row to set input
+  tableBody.querySelectorAll('tr').forEach(row => {
+    row.addEventListener('click', () => {
+      const code = row.getAttribute('data-code');
+      asciiInput.value = code;
+      updateLookup();
+      asciiInput.focus();
+    });
+  });
 }
 
 // Event Listeners
-textInput.addEventListener('input', updateNumbersTable);
-
-btnSample.addEventListener('click', () => {
-  textInput.value = 'Hello World';
-  updateNumbersTable();
-  textInput.focus();
-});
+asciiInput.addEventListener('input', updateLookup);
 
 btnClear.addEventListener('click', () => {
-  textInput.value = '';
-  updateNumbersTable();
-  textInput.focus();
+  asciiInput.value = '';
+  updateLookup();
+  asciiInput.focus();
 });
 
-// Initial Render
-updateNumbersTable();
-renderReferenceTable();
+// Initialization
+renderAsciiTable();
+updateLookup();
