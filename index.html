@@ -3,99 +3,98 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ASCII Converter | LuminaLearn</title>
+  <title>ASCII Converter</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Clean Educational Header -->
-  <header class="site-header">
-    <div class="header-container">
-      <div class="brand-badge">LuminaLearn Tools</div>
-      <h1 class="page-title">ASCII Converter</h1>
-      <p class="page-description">Convert text into decimal, hexadecimal, binary and octal ASCII values.</p>
-    </div>
-  </header>
+  <div class="page-container">
+    <!-- Compact Header -->
+    <header class="page-header">
+      <h1 class="page-title"><span class="title-accent">ASCII</span> Converter</h1>
+      <p class="page-subtitle">Convert text into decimal, hexadecimal, binary and octal ASCII values.</p>
+    </header>
 
-  <!-- Main Content Layout -->
-  <main class="main-container">
-    <!-- Section 1: ASCII Numbers -->
-    <section class="card" id="card-numbers">
-      <div class="card-header">
-        <h2 class="card-title">ASCII Numbers</h2>
-        <p class="card-description">Convert each character into its ASCII numerical representations.</p>
-      </div>
+    <!-- Main Content -->
+    <main class="content-layout">
+      <!-- Card 1: ASCII Numbers -->
+      <section class="card" id="card-numbers">
+        <div class="card-header">
+          <h2 class="card-title">ASCII Numbers</h2>
+          <p class="card-subtitle">Convert each character into its ASCII numerical representations.</p>
+        </div>
 
-      <div class="input-section">
-        <div class="input-header">
-          <label for="text-input" class="input-label">Enter Text</label>
-          <div class="button-group">
-            <button type="button" id="btn-sample" class="btn btn-secondary">Sample</button>
-            <button type="button" id="btn-clear" class="btn btn-outline">Clear</button>
+        <div class="input-group">
+          <div class="input-top-bar">
+            <label for="text-input" class="input-label">Enter Text</label>
+            <div class="button-row">
+              <button type="button" id="btn-sample" class="btn btn-primary">Sample</button>
+              <button type="button" id="btn-clear" class="btn btn-secondary">Clear</button>
+            </div>
+          </div>
+
+          <textarea id="text-input" class="text-area" rows="3" placeholder="Enter text here...">Hello World</textarea>
+
+          <div class="stats-row">
+            <span id="stat-chars">Characters: 11</span>
+            <span class="stat-divider">&bull;</span>
+            <span id="stat-words">Words: 2</span>
+            <span class="stat-divider">&bull;</span>
+            <span id="stat-bytes">Bytes: 11 B</span>
           </div>
         </div>
 
-        <textarea id="text-input" class="text-input" rows="3" placeholder="Enter text here...">Hello World</textarea>
-
-        <div class="metadata-row">
-          <span id="stat-chars">Characters: 11</span>
-          <span class="meta-separator">&bull;</span>
-          <span id="stat-words">Words: 2</span>
-          <span class="meta-separator">&bull;</span>
-          <span id="stat-bytes">Bytes: 11 B</span>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Character</th>
+                <th>Decimal</th>
+                <th>Hex</th>
+                <th>Binary</th>
+                <th>Octal</th>
+              </tr>
+            </thead>
+            <tbody id="numbers-tbody">
+              <!-- Dynamically rendered -->
+            </tbody>
+          </table>
         </div>
-      </div>
+      </section>
 
-      <div class="table-container">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Character</th>
-              <th>Decimal</th>
-              <th>Hex</th>
-              <th>Binary</th>
-              <th>Octal</th>
-            </tr>
-          </thead>
-          <tbody id="numbers-tbody">
-            <!-- Dynamically populated from text input -->
-          </tbody>
-        </table>
-      </div>
-    </section>
+      <!-- Card 2: ASCII Table -->
+      <section class="card" id="card-table">
+        <div class="card-header">
+          <h2 class="card-title">ASCII Table</h2>
+          <p class="card-subtitle">Standard ASCII characters from 0 to 127.</p>
+        </div>
 
-    <!-- Section 2: ASCII Table -->
-    <section class="card" id="card-table">
-      <div class="card-header">
-        <h2 class="card-title">ASCII Table</h2>
-        <p class="card-description">Standard ASCII characters from 0 to 127.</p>
-      </div>
+        <div class="table-container scrollable-table">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Decimal</th>
+                <th>Hex</th>
+                <th>Character</th>
+                <th>Binary</th>
+                <th>Octal</th>
+              </tr>
+            </thead>
+            <tbody id="reference-tbody">
+              <!-- Dynamically populated 0 to 127 -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
 
-      <div class="table-container scrollable-table">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Decimal</th>
-              <th>Hex</th>
-              <th>Character</th>
-              <th>Binary</th>
-              <th>Octal</th>
-            </tr>
-          </thead>
-          <tbody id="reference-tbody">
-            <!-- Standard ASCII 0-127 populated dynamically -->
-          </tbody>
-        </table>
-      </div>
-    </section>
-  </main>
-
-  <!-- Clean Footer -->
-  <footer class="site-footer">
-    <p>LuminaLearn &bull; ASCII Converter &bull; Open Source on <a href="https://github.com/Samiksha-1312/words-to-ascii" target="_blank" rel="noopener">GitHub</a></p>
-  </footer>
+    <!-- Clean Minimal Footer -->
+    <footer class="page-footer">
+      <p>ASCII Converter &bull; Educational Reference Tool</p>
+    </footer>
+  </div>
 
   <script src="script.js"></script>
 </body>

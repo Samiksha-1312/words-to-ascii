@@ -1,4 +1,4 @@
-// LuminaLearn ASCII Converter - Core Logic
+// ASCII Converter - Core Logic
 
 // Standard ASCII Control Characters Mapping (0-31 and 127)
 const ASCII_CONTROL_NAMES = {
@@ -53,12 +53,12 @@ function escapeHtml(str) {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
-// Display format for a character
+// Character display renderer
 function formatCharacterDisplay(char, code) {
   if (ASCII_CONTROL_NAMES[code]) {
-    return `<span class="char-special">${ASCII_CONTROL_NAMES[code]}</span>`;
+    return `<span class="char-control">${ASCII_CONTROL_NAMES[code]}</span>`;
   }
-  return `<span class="char-printable">${escapeHtml(char)}</span>`;
+  return `<span class="char-text">${escapeHtml(char)}</span>`;
 }
 
 // Format Hexadecimal (uppercase 2 digits)
@@ -81,7 +81,7 @@ function getByteCount(str) {
   return new TextEncoder().encode(str).length;
 }
 
-// Update Section 1: ASCII Numbers Table
+// Update Card 1: ASCII Numbers
 function updateNumbersTable() {
   const text = textInput.value;
   const chars = text.length;
@@ -95,7 +95,7 @@ function updateNumbersTable() {
   if (chars === 0) {
     numbersTbody.innerHTML = `
       <tr>
-        <td colspan="5" class="table-empty">
+        <td colspan="5" class="empty-state">
           Enter text above to see its ASCII numerical representations.
         </td>
       </tr>
@@ -112,9 +112,9 @@ function updateNumbersTable() {
       <tr>
         <td class="col-char">${formatCharacterDisplay(char, code)}</td>
         <td class="col-num">${code}</td>
-        <td class="col-code">${formatHex(code)}</td>
-        <td class="col-code font-mono">${formatBinary(code)}</td>
-        <td class="col-code font-mono">${formatOctal(code)}</td>
+        <td class="col-mono">${formatHex(code)}</td>
+        <td class="col-mono">${formatBinary(code)}</td>
+        <td class="col-mono">${formatOctal(code)}</td>
       </tr>
     `);
   }
@@ -122,25 +122,25 @@ function updateNumbersTable() {
   numbersTbody.innerHTML = rows.join('');
 }
 
-// Populate Section 2: Standard ASCII Reference Table (0–127)
+// Populate Card 2: Standard ASCII Reference Table (0–127)
 function renderReferenceTable() {
   const rows = [];
 
   for (let code = 0; code <= 127; code++) {
     let charDisplay;
     if (ASCII_CONTROL_NAMES[code]) {
-      charDisplay = `<span class="char-special">${ASCII_CONTROL_NAMES[code]}</span>`;
+      charDisplay = `<span class="char-control">${ASCII_CONTROL_NAMES[code]}</span>`;
     } else {
-      charDisplay = `<span class="char-printable">${escapeHtml(String.fromCharCode(code))}</span>`;
+      charDisplay = `<span class="char-text">${escapeHtml(String.fromCharCode(code))}</span>`;
     }
 
     rows.push(`
       <tr>
         <td class="col-num">${code}</td>
-        <td class="col-code">${formatHex(code)}</td>
+        <td class="col-mono">${formatHex(code)}</td>
         <td class="col-char">${charDisplay}</td>
-        <td class="col-code font-mono">${formatBinary(code)}</td>
-        <td class="col-code font-mono">${formatOctal(code)}</td>
+        <td class="col-mono">${formatBinary(code)}</td>
+        <td class="col-mono">${formatOctal(code)}</td>
       </tr>
     `);
   }
